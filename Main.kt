@@ -1,16 +1,17 @@
 package sorting
 
-import java.util.Scanner
+fun main(args: Array<String>) {
+    val sortingTool = getSortingTool(args)
+    sortingTool.sort()
+}
 
-fun main() {
-    val numbers = mutableListOf<Int>()
-    val scanner = Scanner(System.`in`)
-
-    while (scanner.hasNext()) {
-        numbers.addAll(scanner.next().split(Regex("\\s+")).map { it.toInt() })
+private fun getSortingTool(args: Array<String>): SortingTool {
+    val indexOfDataType = args.indexOf("-dataType")
+    if (indexOfDataType < 0) return SortingToolWord()
+    if (indexOfDataType + 1 >= args.size) return SortingToolWord()
+    return when (DataTypes.getDataType(args[indexOfDataType + 1])) {
+        DataTypes.LONG -> SortingToolLong()
+        DataTypes.LINE -> SortingToolLine()
+        DataTypes.WORD -> SortingToolWord()
     }
-
-    println("Total numbers: ${numbers.size}.")
-    println("The greatest number: ${numbers.maxOf { it }} (${numbers.count { it == numbers.maxOf { it } }} time(s)).")
-
 }
