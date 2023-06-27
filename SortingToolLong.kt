@@ -2,7 +2,7 @@ package sorting
 
 import java.util.*
 
-class SortingToolLong : SortingTool {
+class SortingToolLong(val isSortIntegers: Boolean) : SortingTool {
     private val numbers = mutableListOf<Long>()
     private val scanner = Scanner(System.`in`)
     override fun sort() {
@@ -14,7 +14,10 @@ class SortingToolLong : SortingTool {
         val times = numbers.count { it == greatestNumber }
         val percentage = 100 * times / totalNumbers
         println("Total numbers: $totalNumbers.")
-        println("The greatest number: $greatestNumber} ($times time(s), $percentage%).")
+        if (isSortIntegers)
+            println("Sorted data: ${numbers.sorted().joinToString(" ")}")
+        else
+            println("The greatest number: $greatestNumber ($times time(s), $percentage%).")
     }
 
 }
