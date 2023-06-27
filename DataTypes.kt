@@ -8,7 +8,7 @@ enum class DataTypes(val string: String) {
             for (type in DataTypes.values()) {
                 if (type.string == input.lowercase()) return type
             }
-            throw RuntimeException("Wrong dataType $input")
+            throw RuntimeException("No data type defined!")
         }
     }
 }

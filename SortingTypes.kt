@@ -8,7 +8,7 @@ enum class SortingTypes(val string: String) {
             for (type in SortingTypes.values()) {
                 if (type.string == input) return type
             }
-            throw RuntimeException("Wrong sorting type $input")
+            throw RuntimeException("No sorting type defined!")
         }
     }
 }

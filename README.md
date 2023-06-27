@@ -1,58 +1,36 @@
-# Stage 4/6: Everything counts
+# Stage 5/6: Error!
 ## Description
-Now that it’s possible to sort numbers, it's time to implement the same functionality for words and lines. But that's not all for this stage! Let's also add a new sorting type that is often rather useful: sorting by count, a type of sorting that arranges the elements by number of occurrences.
+There is always a possibility that someone will run your program the wrong way. It shouldn't just silently crash, but instead, it should print a message that informs the user of the mistake they made.
 
-Instead of `-sortIntegers`, we will use the universal `-sortingType` argument.
-
-The result of sorting by count should be pairs (`count`, `dataEntry`) sorted by the `count` value.
-
-Note that from this stage on, your program focuses on sorting user data, so it will no longer output information about the greatest number or the longest string.
+In this stage, let's implement error handling for various exceptional situations the user might encounter.
 
 ## Objectives
-Update the parsing of command-line arguments to support the sorting type definition:
+Add exception handling for possible errors and output error messages to the console:
 
-- if the `-sortingType` argument is provided, it should be followed by `natural` or `byCount`, which defines the sorting type.
-- if the argument is not provided, then consider `natural` to be the default sorting type.
+- if the `-sortingType` argument is provided but the type is not, print a message `No sorting type defined!`
 
-Implement natural sorting for words and lines, and sorting by count for all data types. Within the group, elements with equal count values should be sorted naturally.
+- if the `-dataType` argument is provided but the type is not, print `No data type defined!`
 
-<b>Note:</b> for strings (words and lines), natural order is lexicographic order, for numbers it is numeric order.
+- if unknown command-line arguments are provided, print `"-arg" is not a valid parameter. It will be skipped.` for each unknown argument `-arg`;
 
-Print the line containing the total number `m` of elements in the input: `Total ELEMENTS: m`., where `ELEMENTS` can be `numbers`, `words`, or `lines`, depending on the input. Then output the sorting results:
-
-- for natural sorting of numbers or words, print elements on one line in ascending order:
-```
-Sorted data: el_1 el_2 ... el_m
-```
-
-- for natural sorting of lines, print lexicographically sorted elements each on a new line:
-```
-Sorted data:
-line_1
-line_2
-…
-line_m
-```
-
-- for sorting by count, print elements sorted by the number of occurrences, each on a new line, using the following format:
-```
-element: count time(s), percentage%
-```
-Here, `element` is a number, word, or line, `count` is the number of times it appears in the input, and `percentage` is the proportion of the `count` to the total number of elements in the input, given as a percentage.
+- if there are strings in the input, but the data type is defined as `long`, print `"abc" is not a long. It will be skipped.` for each string `abc` from the input.
 
 ## Examples
-<b>Run configuration examples:</b>
-```
-java SortingTool -sortingType natural -dataType long
-java SortingTool -dataType word -sortingType byCount
-```
-
-<b>Run examples:</b>
-
 The greater-than symbol followed by a space (`> `) represents the user input. Note that it's not part of the input.
 
-<b>Example 1</b>, for sorting longs by count:
+<b>Example 1:</b> <i>sorting numbers naturally without errors</i>
 ```
+$> java SortingTool -sortingType natural -dataType long
+> 1 -2   33 4
+> 42
+> 1                 1
+Total numbers: 7.
+Sorted data: -2 1 1 1 4 33 42
+```
+
+<b>Example 2:</b> <i>sorting numbers by count without errors</i>
+```
+$> java SortingTool -sortingType byCount -dataType long
 > 1 -2   33 4
 > 42
 > 1                 1
@@ -64,32 +42,25 @@ Total numbers: 7.
 1: 3 time(s), 43%
 ```
 
-<b>Example 2</b>, for sorting numbers naturally:
+<b>Example 3:</b> <i>missing sorting type</i>
 ```
-> 1 -2   33 4
-> 42
-> 1                 1
-Total numbers: 7.
-Sorted data: -2 1 1 1 4 33 42
+$> java SortingTool -sortingType
+No sorting type defined!
 ```
 
-<b>Example 3</b>, for sorting words naturally:
+<b>Example 4:</b> <i>missing data type</i>
 ```
-> 1 -2   33 4
-> 42
-> 1                 1
-Total words: 7.
-Sorted data: -2 1 1 1 33 4 42
+$> java SortingTool -dataType
+No data type defined!
 ```
 
-<b>Example 4</b>, for sorting lines naturally:
+<b>Example 5:</b> <i>invalid arguments and input value</i>
 ```
-> 1 -2   33 4
-> 42
-> 1                 1
-Total lines: 3
-Sorted data:
-1                 1
-1 -2   33 4
-42
+$> java SortingTool -dataType long -sortingType natural -abc -def
+"-abc" is not a valid parameter. It will be skipped.
+"-def" isn not a valid parameter. It will be skipped.
+> a 2 -42
+"a" is not a long. It will be skipped.
+Total numbers: 2.
+Sorted data: -42 2
 ```
