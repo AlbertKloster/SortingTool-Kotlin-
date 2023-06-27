@@ -1,21 +1,18 @@
 package sorting
 
-import java.util.*
 import kotlin.math.roundToLong
 
-class SortingToolLong(private val sortingType: SortingTypes) : SortingTool {
+class SortingToolLong(private val parameters: Parameters) : SortingTool {
     override fun sort() {
-        val scanner = Scanner(System.`in`)
         val strings = mutableListOf<String>()
-        while (scanner.hasNext()) {
-            strings.addAll(scanner.next().split(Regex("\\s+")))
-        }
+        parameters.reader.read().split("\r\n").forEach { strings.addAll(it.trim().split(Regex("\\s+"))) }
         val numbers = getNumbers(strings)
-        println("Total numbers: ${numbers.size}.")
-        when (sortingType) {
-            SortingTypes.NATURAL -> println(sortNatural(numbers))
-            SortingTypes.BY_COUNT -> println(sortByCount(numbers))
+        val builder = StringBuilder("Total numbers: ${numbers.size}.\n")
+        when (parameters.sortingType) {
+            SortingTypes.NATURAL -> builder.append(sortNatural(numbers))
+            SortingTypes.BY_COUNT -> builder.append(sortByCount(numbers))
         }
+        parameters.writer.write(builder.toString())
     }
 
     private fun getNumbers(strings: MutableList<String>): MutableList<Long> {

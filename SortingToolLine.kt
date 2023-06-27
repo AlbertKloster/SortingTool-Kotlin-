@@ -1,20 +1,17 @@
 package sorting
 
-import java.util.*
 import kotlin.math.roundToLong
 
-class SortingToolLine(val sortingType: SortingTypes) : SortingTool {
+class SortingToolLine(private val parameters: Parameters) : SortingTool {
     private val lines = mutableListOf<String>()
-    private val scanner = Scanner(System.`in`)
     override fun sort() {
-        while (scanner.hasNext()) {
-            lines.add(scanner.nextLine())
+        parameters.reader.read().split("\n").forEach { lines.add(it.trim()) }
+        val builder = StringBuilder("Total lines: ${lines.size}.\n")
+        when (parameters.sortingType) {
+            SortingTypes.NATURAL -> builder.append(sortNatural())
+            SortingTypes.BY_COUNT -> builder.append(sortByCount())
         }
-        println("Total lines: ${lines.size}.")
-        when (sortingType) {
-            SortingTypes.NATURAL -> println(sortNatural())
-            SortingTypes.BY_COUNT -> println(sortByCount())
-        }
+        parameters.writer.write(builder.toString())
     }
 
     private fun sortNatural() = "Sorted data: \n${lines.sorted().sortedBy { -it.length }.joinToString("\n")}"
